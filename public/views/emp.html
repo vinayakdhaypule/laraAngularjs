@@ -1,0 +1,140 @@
+
+<div>
+
+            <!-- Table-to-load-the-data Part -->
+            <table class="table table-striped" at-table at-paginated at-list="list" at-config="config">
+                <!-- <input type="text" ng-model="test" > -->
+                 <div class="form-group">
+                
+               </div>
+                <thead>
+                    <tr>
+                        <th ng-click="sort('id')">ID</th>
+                        <th ng-click="sort('name')">Name</th>
+                        <th>Email</th>
+                        <th>Contact No</th>
+                        <th>Position</th>
+                        <th><input type="text" class="" ng-model="test"  placeholder="Search"></th>
+                        <th>
+
+                           <button data-toggle="modal" data-target="#addEmployeeModal" class="btn btn-primary center-block">Add Employee</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr ng-repeat="employee in employees|orderBy:sortKey:reverse|filter:search"> -->
+                    <tr dir-paginate="employee in employees|orderBy:sortKey:reverse|filter:test|itemsPerPage:3">
+                   
+                        <td >{{ employee.id }}</td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.contact_number }}</td>
+                        <td>{{ employee.position }}</td>
+                        <td>
+                            <button class="btn btn-default btn-xs btn-detail" ng-click="initTask(employee.id)" >Edit</button>
+                            <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(employee.id)" >Delete</button>
+                        </td>
+                    </tr>
+                    <td><div id="notFoundDiv" ng-show="(employees|filter:test).length==0" style="color: red; font-weight: bold">No Records Found</div></td>
+                     
+                </tbody>
+
+            </table>
+              <dir-pagination-controls
+                    max-size="5"
+                    direction-links="true"
+                    boundary-links="true" >
+                </dir-pagination-controls>
+
+            <!-- Add Employee Module -->
+        <div class="modal fade emp" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h3 class="modal-title" id="lineModalLabel">Add </h3>
+                    </div>
+                   <div class="modal-body">
+                <!-- content goes here -->
+               <form name="frmEmployees" class="form-horizontal" novalidate="">
+
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" id="name" name="name"   ng-model="employee.name" ng-required="true"  class="form-control"  placeholder="Enter Name">
+                   </div>
+
+                  <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" id="email" name="email" ng-model="employee.email" ng-required="true" class="form-control"  placeholder="Enter email">
+                  </div>
+
+                  <div class="form-group">
+                        <label for="exampleInputContact">Contact No</label>
+                        <input type="text" class="form-control" id="contact_number" name="contact_number"  ng-model="employee.contact_number" ng-required="true" placeholder="Contact No">
+                  </div>
+
+                   <div class="form-group">
+                        <label for="exampleInputContact">Position</label>
+                        <input type="text" class="form-control" id="position" name="position"  ng-model="employee.position" ng-required="true" placeholder="Position">
+                  </div>
+                  <button type="submit" class="btn btn-default" ng-click="save(addEmp)">Submit</button>
+                </form>
+
+               </div>
+                <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
+                        </div>
+                </div>
+                   </div>
+               </div>
+        </div>
+
+         <!-- edit Employee Module -->
+
+   <div class="modal fade emp" id="edit_task" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <h3 class="modal-title" id="lineModalLabel">Edit </h3>
+                                </div>
+                                <div class="modal-body">
+                                    {{employees.data}}
+                                    
+                                 <form name="frmEmployees" class="form-horizontal" novalidate="">
+
+                                        <div class="form-group">
+                                            <label for="exampleInputName">Name</label>
+                                            <input type="text" id="name" name="name"  value="{{employees.name}}" ng-model="employee.name" ng-required="true"  class="form-control"  placeholder="Enter Name">
+                                       </div>
+
+                                      <div class="form-group">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" id="email" name="email" value="{{employees.email}}" ng-model="employee.email" ng-required="true" class="form-control"  placeholder="Enter email">
+                                      </div>
+
+                                      <div class="form-group">
+                                            <label for="exampleInputContact">Contact No</label>
+                                            <input type="text" class="form-control" id="contact_number" name="contact_number"  value="{{employees.contact_number}}" ng-model="employee.contact_number" ng-required="true" placeholder="Contact No">
+                                      </div>
+
+                                       <div class="form-group">
+                                            <label for="exampleInputContact">Position</label>
+                                            <input type="text" class="form-control" id="position" name="position"  value="{{employees.position}}" ng-model="employee.position" ng-required="true" placeholder="Position">
+                                      </div>
+                                      <button type="submit" class="btn btn-default" ng-click="updateTask(employee.id)">Submit</button>
+                                </form>
+
+                                </div>
+                                <div class="modal-footer">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
+                                        </div>
+                                </div>
+                           </div>
+                          </div>
+  </div>
+
+</div>
